@@ -15,7 +15,8 @@ import {
   CheckCircle2, 
   Navigation,
   Loader2,
-  Sparkles
+  Sparkles,
+  ImageIcon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -84,6 +85,11 @@ export default function GuideViewPage() {
 
   if (!rallyData) return <div className="p-20 text-center">読み込み中...</div>;
 
+  const currentSpot = rallyData.spots?.[0];
+  const spotImageUrl = currentSpot?.imagePlaceholderId 
+    ? safeImages.find(img => img.id === currentSpot.imagePlaceholderId)?.imageUrl 
+    : null;
+
   return (
     <div className="flex flex-col h-screen bg-slate-900 overflow-hidden text-white font-body">
       {/* Mobile-style Header */}
@@ -106,20 +112,28 @@ export default function GuideViewPage() {
         <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/map/800/1200')] bg-cover opacity-40 mix-blend-overlay" />
         
         {/* Progress Card */}
-        <div className="absolute top-6 left-6 right-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 animate-fade-in shadow-2xl">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Next Stop</span>
-            <span className="text-[10px] font-bold text-white/50">0 / {rallyData.spots?.length || 0}</span>
-          </div>
-          <h2 className="text-xl font-bold mb-1">{rallyData.spots?.[0]?.name || 'スポット'}</h2>
-          <p className="text-xs text-white/60 mb-4">{rallyData.spots?.[0]?.description || ''}</p>
-          <div className="flex gap-2">
-            <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-full text-xs font-bold px-4">
-              <Navigation className="w-3 h-3 mr-1" /> ナビ開始
-            </Button>
-            <Button variant="outline" size="sm" className="bg-white/5 border-white/20 rounded-full text-xs font-bold px-4 hover:bg-white/10">
-              <Camera className="w-3 h-3 mr-1" /> チェックイン
-            </Button>
+        <div className="absolute top-6 left-6 right-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden animate-fade-in shadow-2xl">
+          {spotImageUrl && (
+            <div className="relative h-32 w-full">
+              <Image src={spotImageUrl} alt={currentSpot?.name || 'Spot'} fill className="object-cover brightness-75" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </div>
+          )}
+          <div className="p-4 relative">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Next Stop</span>
+              <span className="text-[10px] font-bold text-white/50">0 / {rallyData.spots?.length || 0}</span>
+            </div>
+            <h2 className="text-xl font-bold mb-1">{currentSpot?.name || 'スポット'}</h2>
+            <p className="text-xs text-white/60 mb-4 line-clamp-2">{currentSpot?.description || ''}</p>
+            <div className="flex gap-2">
+              <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-full text-xs font-bold px-4">
+                <Navigation className="w-3 h-3 mr-1" /> ナビ開始
+              </Button>
+              <Button variant="outline" size="sm" className="bg-white/5 border-white/20 rounded-full text-xs font-bold px-4 hover:bg-white/10">
+                <Camera className="w-3 h-3 mr-1" /> チェックイン
+              </Button>
+            </div>
           </div>
         </div>
 

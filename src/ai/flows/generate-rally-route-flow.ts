@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A Genkit flow that generates an optimal stamp rally route based on user criteria.
@@ -38,6 +39,10 @@ const RallySpotSchema = z.object({
     .int()
     .min(5)
     .describe('The estimated time a participant will spend at this spot in minutes.'),
+  imagePlaceholderId: z
+    .string()
+    .optional()
+    .describe('An ID for a representative image of the spot. Use "spot-cafe" for shops/cafes, "spot-park" for outdoor areas, "spot-temple" for historical/traditional sites, "spot-museum" for cultural facilities, or "spot-store" for general businesses. If you cannot find a matching specific image, do not include this field.'),
   walkingDistanceToNextSpotMeters: z
     .number()
     .int()
@@ -80,6 +85,7 @@ The route should consist of between 5 and 7 unique points of interest (spots). F
 - A 'name' (string) of the point of interest.
 - A 'description' (string) relevant to the rally's theme.
 - An 'estimatedActivityMinutes' (integer) for the time a participant will spend at this spot (minimum 5 minutes).
+- An 'imagePlaceholderId' (string) if you find the spot would likely have a public photo. Choose from: 'spot-cafe', 'spot-park', 'spot-temple', 'spot-museum', 'spot-store'.
 - An optional 'walkingDistanceToNextSpotMeters' (integer) representing the estimated walking distance from this spot to the next spot in meters. This field MUST NOT be present for the final spot in the route.
 
 After listing all spots, calculate and provide the 'totalEstimatedMinutes' for the entire rally (sum of all estimatedActivityMinutes and all walking times converted to minutes based on an average walking speed of 80 meters per minute), and the 'totalWalkingDistanceMeters' for the entire rally (sum of all walking distances).

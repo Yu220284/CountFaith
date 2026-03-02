@@ -19,7 +19,8 @@ import {
   Sparkles,
   QrCode,
   Mail,
-  ArrowRight
+  ArrowRight,
+  ImageIcon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -88,6 +89,11 @@ export default function RallyEditorPage() {
     }
   };
 
+  const getSpotImage = (id?: string) => {
+    if (!id) return null;
+    return (PlaceHolderImages || []).find(img => img.id === id)?.imageUrl;
+  };
+
   if (!rallyData) return <div className="p-20 text-center">読み込み中...</div>;
 
   return (
@@ -134,39 +140,53 @@ export default function RallyEditorPage() {
                 </Button>
               </div>
 
-              {(rallyData?.spots || []).map((spot: any, index: number) => (
-                <Card key={index} className="border-none shadow-sm hover:shadow-md transition-shadow group">
-                  <CardContent className="p-4 flex gap-4">
-                    <div className="flex flex-col items-center gap-1 mt-1">
-                      <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
-                        {index + 1}
-                      </div>
-                      {index < rallyData.spots.length - 1 && (
-                        <div className="w-[1px] h-full bg-slate-200" />
+              {(rallyData?.spots || []).map((spot: any, index: number) => {
+                const imageUrl = getSpotImage(spot.imagePlaceholderId);
+                return (
+                  <Card key={index} className="border-none shadow-sm hover:shadow-md transition-shadow group overflow-hidden">
+                    <CardContent className="p-0 flex flex-col">
+                      {imageUrl ? (
+                        <div className="relative h-24 w-full">
+                          <Image src={imageUrl} alt={spot.name} fill className="object-cover" />
+                        </div>
+                      ) : (
+                        <div className="h-24 w-full bg-slate-100 flex items-center justify-center text-slate-300">
+                          <ImageIcon className="w-8 h-8" />
+                        </div>
                       )}
-                    </div>
-                    <div className="flex-grow">
-                      <div className="flex items-start justify-between">
-                        <h4 className="font-bold text-sm leading-tight">{spot.name}</h4>
-                        <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100">
-                          <MoreVertical className="h-4 w-4" />
-                        </Button>
+                      <div className="p-4 flex gap-4">
+                        <div className="flex flex-col items-center gap-1 mt-1">
+                          <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
+                            {index + 1}
+                          </div>
+                          {index < rallyData.spots.length - 1 && (
+                            <div className="w-[1px] h-full bg-slate-200" />
+                          )}
+                        </div>
+                        <div className="flex-grow">
+                          <div className="flex items-start justify-between">
+                            <h4 className="font-bold text-sm leading-tight">{spot.name}</h4>
+                            <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100">
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{spot.description}</p>
+                          <div className="flex items-center gap-3 mt-2">
+                            <Badge variant="secondary" className="text-[10px] font-normal py-0">
+                              滞在: {spot.estimatedActivityMinutes}分
+                            </Badge>
+                            {spot.walkingDistanceToNextSpotMeters && (
+                              <span className="text-[10px] text-muted-foreground flex items-center">
+                                <Navigation className="w-3 h-3 mr-1" /> {spot.walkingDistanceToNextSpotMeters}m
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{spot.description}</p>
-                      <div className="flex items-center gap-3 mt-2">
-                        <Badge variant="secondary" className="text-[10px] font-normal py-0">
-                          滞在: {spot.estimatedActivityMinutes}分
-                        </Badge>
-                        {spot.walkingDistanceToNextSpotMeters && (
-                          <span className="text-[10px] text-muted-foreground flex items-center">
-                            <Navigation className="w-3 h-3 mr-1" /> {spot.walkingDistanceToNextSpotMeters}m
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    </CardContent>
+                  </Card>
+                );
+              })}
 
               <div className="pt-6">
                 <Button 
