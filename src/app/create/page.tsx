@@ -1,7 +1,9 @@
+
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Sparkles, MapPin, Clock, Users, ArrowRight, Loader2, Landmark, Camera, Palette, Ghost, Utensils } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +12,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { generateRallyRoute } from '@/ai/flows/generate-rally-route-flow';
 import { useToast } from '@/hooks/use-toast';
+import { PlaceHolderImages } from '@/app/lib/placeholder-images';
 
 const themes = [
   { id: 'mystery', name: 'ミステリー', icon: Ghost, description: '隠された謎を解き明かす' },
@@ -28,6 +31,8 @@ export default function CreateRallyPage() {
     durationHours: 3,
     audience: 'friends'
   });
+
+  const logoUrl = (PlaceHolderImages || []).find(img => img.id === 'logo')?.imageUrl || '';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,6 +72,11 @@ export default function CreateRallyPage() {
             <Button variant="ghost" size="icon" onClick={() => router.back()}>
               <ArrowRight className="rotate-180" />
             </Button>
+            {logoUrl ? (
+              <Image src={logoUrl} alt="Logo" width={28} height={28} className="rounded-md object-contain" />
+            ) : (
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white text-xs font-bold">P</div>
+            )}
             <span className="font-bold text-xl text-primary">ラリーを作成</span>
           </div>
         </div>

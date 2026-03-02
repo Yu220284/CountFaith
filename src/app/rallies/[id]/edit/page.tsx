@@ -1,7 +1,9 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { 
   Map as MapIcon, 
   List, 
@@ -27,6 +29,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { generateSpotContent } from '@/ai/flows/generate-spot-content';
 import { useToast } from '@/hooks/use-toast';
+import { PlaceHolderImages } from '@/app/lib/placeholder-images';
 
 export default function RallyEditorPage() {
   const params = useParams();
@@ -35,6 +38,8 @@ export default function RallyEditorPage() {
   const [rallyData, setRallyData] = useState<any>(null);
   const [activeTab, setActiveTab] = useState('route');
   const [isGeneratingContent, setIsGeneratingContent] = useState(false);
+
+  const logoUrl = (PlaceHolderImages || []).find(img => img.id === 'logo')?.imageUrl || '';
 
   useEffect(() => {
     const data = localStorage.getItem(`rally_${params.id}`);
@@ -47,7 +52,7 @@ export default function RallyEditorPage() {
     if (!rallyData) return;
     setIsGeneratingContent(true);
     try {
-      const spots = rallyData.spots.map((s: any) => ({
+      const spots = (rallyData?.spots || []).map((s: any) => ({
         spotName: s.name,
         description: s.description,
         location: rallyData.location
@@ -58,7 +63,7 @@ export default function RallyEditorPage() {
         spotDetails: spots
       });
 
-      const updatedSpots = rallyData.spots.map((s: any) => {
+      const updatedSpots = (rallyData?.spots || []).map((s: any) => {
         const generated = content?.spotContents?.find((gc: any) => gc.spotName === s.name);
         return { ...s, generatedContent: generated?.generatedContent || '' };
       });
@@ -91,7 +96,11 @@ export default function RallyEditorPage() {
       <div className="w-full md:w-[450px] bg-white border-r flex flex-col h-full shadow-lg z-20">
         <header className="p-4 border-b flex items-center justify-between bg-primary/5">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white text-xs font-bold">P</div>
+            {logoUrl ? (
+              <Image src={logoUrl} alt="Logo" width={28} height={28} className="rounded-md object-contain" />
+            ) : (
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white text-xs font-bold">P</div>
+            )}
             <div>
               <h1 className="font-bold text-sm truncate max-w-[180px]">{rallyData.rallyName}</h1>
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">{rallyData.totalEstimatedMinutes}分 • {rallyData.totalWalkingDistanceMeters}m</p>
@@ -125,7 +134,7 @@ export default function RallyEditorPage() {
                 </Button>
               </div>
 
-              {rallyData.spots.map((spot: any, index: number) => (
+              {(rallyData?.spots || []).map((spot: any, index: number) => (
                 <Card key={index} className="border-none shadow-sm hover:shadow-md transition-shadow group">
                   <CardContent className="p-4 flex gap-4">
                     <div className="flex flex-col items-center gap-1 mt-1">
@@ -179,7 +188,7 @@ export default function RallyEditorPage() {
               <h3 className="font-bold">生成されたコンテンツ</h3>
               <p className="text-xs text-muted-foreground">AIが作成したストーリーやクイズを編集できます。</p>
               
-              {rallyData.spots.map((spot: any, index: number) => (
+              {(rallyData?.spots || []).map((spot: any, index: number) => (
                 <div key={index} className="space-y-2 p-4 rounded-xl border bg-slate-50">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-primary">スポット {index + 1}</span>

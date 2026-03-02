@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, MapPin, Clock, ArrowRight, Filter, Compass, History, Ghost, Utensils } from 'lucide-react';
@@ -45,15 +46,21 @@ const featuredRallies = [
 ];
 
 export default function Home() {
+  const logoUrl = (PlaceHolderImages || []).find(img => img.id === 'logo')?.imageUrl || '';
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navigation */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">P</div>
+          <Link href="/" className="flex items-center gap-2">
+            {logoUrl ? (
+              <Image src={logoUrl} alt="Logo" width={32} height={32} className="rounded-lg object-contain" />
+            ) : (
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">P</div>
+            )}
             <span className="text-xl font-bold text-primary">ぷらねっと</span>
-          </div>
+          </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
             <Link href="/" className="text-primary">ラリーを探す</Link>
             <Link href="/create" className="hover:text-primary transition-colors">ラリーを作る</Link>
@@ -209,7 +216,11 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8 border-b border-slate-800 pb-12 mb-12">
             <div className="col-span-2">
               <div className="flex items-center gap-2 mb-6">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">P</div>
+                {logoUrl ? (
+                  <Image src={logoUrl} alt="Logo" width={32} height={32} className="rounded-lg object-contain" />
+                ) : (
+                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">P</div>
+                )}
                 <span className="text-xl font-bold text-white">ぷらねっと (PRA.net)</span>
               </div>
               <p className="max-w-xs text-sm leading-relaxed">

@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { 
   MessageSquare, 
   MapPin, 
@@ -22,6 +23,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { provideRallyChatGuidance } from '@/ai/flows/provide-rally-chat-guidance';
 import { useToast } from '@/hooks/use-toast';
+import { PlaceHolderImages } from '@/app/lib/placeholder-images';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -40,6 +42,8 @@ export default function GuideViewPage() {
   const [loading, setLoading] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const logoUrl = (PlaceHolderImages || []).find(img => img.id === 'logo')?.imageUrl || '';
 
   useEffect(() => {
     const data = localStorage.getItem(`rally_${params.id}`);
@@ -84,7 +88,11 @@ export default function GuideViewPage() {
       {/* Mobile-style Header */}
       <header className="px-6 h-16 flex items-center justify-between border-b border-white/10 bg-slate-900/50 backdrop-blur shrink-0">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-bold">P</div>
+          {logoUrl ? (
+            <Image src={logoUrl} alt="Logo" width={28} height={28} className="rounded-md object-contain" />
+          ) : (
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-bold text-xs text-white">P</div>
+          )}
           <span className="font-bold text-sm tracking-tight truncate max-w-[150px]">{rallyData.rallyName}</span>
         </div>
         <div className="flex items-center gap-4">

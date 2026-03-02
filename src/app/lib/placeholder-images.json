@@ -2,6 +2,12 @@
 {
   "placeholderImages": [
     {
+      "id": "logo",
+      "description": "PRA.net Logo",
+      "imageUrl": "https://picsum.photos/seed/pra-logo/100/100",
+      "imageHint": "logo icon"
+    },
+    {
       "id": "hero",
       "description": "Exploration and Discovery",
       "imageUrl": "https://picsum.photos/seed/pra1/1200/600",
