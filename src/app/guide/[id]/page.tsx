@@ -36,14 +36,15 @@ export default function GuideViewPage() {
   const { toast } = useToast();
   const [rallyData, setRallyData] = useState<any>(null);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'こんにちは！私はあなたのスタンプラリーガイドです。困ったことがあれば何でも聞いてくださいね。最初のスポット「浅草寺」に向かいましょう！' }
+    { role: 'assistant', content: 'こんにちは！私はあなたのスタンプラリーガイドです。困ったことがあれば何でも聞いてくださいね。最初のスポットに向かいましょう！' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const logoUrl = (PlaceHolderImages || []).find(img => img.id === 'logo')?.imageUrl || '';
+  const safeImages = PlaceHolderImages || [];
+  const logoUrl = safeImages.find(img => img.id === 'logo')?.imageUrl || '';
 
   useEffect(() => {
     const data = localStorage.getItem(`rally_${params.id}`);
@@ -69,7 +70,7 @@ export default function GuideViewPage() {
       const response = await provideRallyChatGuidance({
         userQuery: userMsg,
         currentLocation: rallyData.location,
-        nextSpotName: rallyData.spots[0].name,
+        nextSpotName: rallyData.spots?.[0]?.name || '目的地',
         rallyTheme: rallyData.theme || '観光',
         rallyStoryContext: rallyData.description
       });
@@ -108,10 +109,10 @@ export default function GuideViewPage() {
         <div className="absolute top-6 left-6 right-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 animate-fade-in shadow-2xl">
           <div className="flex items-center justify-between mb-3">
             <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Next Stop</span>
-            <span className="text-[10px] font-bold text-white/50">0 / {rallyData.spots.length}</span>
+            <span className="text-[10px] font-bold text-white/50">0 / {rallyData.spots?.length || 0}</span>
           </div>
-          <h2 className="text-xl font-bold mb-1">{rallyData.spots[0].name}</h2>
-          <p className="text-xs text-white/60 mb-4">{rallyData.spots[0].description}</p>
+          <h2 className="text-xl font-bold mb-1">{rallyData.spots?.[0]?.name || 'スポット'}</h2>
+          <p className="text-xs text-white/60 mb-4">{rallyData.spots?.[0]?.description || ''}</p>
           <div className="flex gap-2">
             <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-full text-xs font-bold px-4">
               <Navigation className="w-3 h-3 mr-1" /> ナビ開始

@@ -32,7 +32,8 @@ export default function CreateRallyPage() {
     audience: 'friends'
   });
 
-  const logoUrl = (PlaceHolderImages || []).find(img => img.id === 'logo')?.imageUrl || '';
+  const safeImages = PlaceHolderImages || [];
+  const logoUrl = safeImages.find(img => img.id === 'logo')?.imageUrl || '';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

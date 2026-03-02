@@ -15,38 +15,40 @@ const categories = [
   { name: '冒険', icon: Compass, color: 'bg-blue-100 text-blue-700' },
 ];
 
-const featuredRallies = [
-  {
-    id: 'tokyo-1',
-    title: '東京ミステリー・ウォーク',
-    location: '東京都 新宿区',
-    duration: '3時間',
-    category: 'ミステリー',
-    image: (PlaceHolderImages || []).find(img => img.id === 'rally-tokyo')?.imageUrl,
-    price: '無料'
-  },
-  {
-    id: 'kyoto-2',
-    title: '古都の歴史を巡る旅',
-    location: '京都府 京都市',
-    duration: '5時間',
-    category: '歴史',
-    image: (PlaceHolderImages || []).find(img => img.id === 'rally-history')?.imageUrl,
-    price: '¥500'
-  },
-  {
-    id: 'osaka-3',
-    title: '大阪くいだおれスタンプラリー',
-    location: '大阪府 大阪市',
-    duration: '4時間',
-    category: 'グルメ',
-    image: (PlaceHolderImages || []).find(img => img.id === 'rally-food')?.imageUrl,
-    price: '無料'
-  }
-];
-
 export default function Home() {
-  const logoUrl = (PlaceHolderImages || []).find(img => img.id === 'logo')?.imageUrl || '';
+  const safeImages = PlaceHolderImages || [];
+  const logoUrl = safeImages.find(img => img.id === 'logo')?.imageUrl || '';
+  const heroUrl = safeImages.find(img => img.id === 'hero')?.imageUrl || '';
+
+  const featuredRallies = [
+    {
+      id: 'tokyo-1',
+      title: '東京ミステリー・ウォーク',
+      location: '東京都 新宿区',
+      duration: '3時間',
+      category: 'ミステリー',
+      image: safeImages.find(img => img.id === 'rally-tokyo')?.imageUrl,
+      price: '無料'
+    },
+    {
+      id: 'kyoto-2',
+      title: '古都の歴史を巡る旅',
+      location: '京都府 京都市',
+      duration: '5時間',
+      category: '歴史',
+      image: safeImages.find(img => img.id === 'rally-history')?.imageUrl,
+      price: '¥500'
+    },
+    {
+      id: 'osaka-3',
+      title: '大阪くいだおれスタンプラリー',
+      location: '大阪府 大阪市',
+      duration: '4時間',
+      category: 'グルメ',
+      image: safeImages.find(img => img.id === 'rally-food')?.imageUrl,
+      price: '無料'
+    }
+  ];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -81,14 +83,16 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative h-[400px] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <Image
-              src={(PlaceHolderImages || []).find(img => img.id === 'hero')?.imageUrl || ''}
-              alt="Hero"
-              fill
-              className="object-cover brightness-50"
-              priority
-              data-ai-hint="landscape discovery"
-            />
+            {heroUrl && (
+              <Image
+                src={heroUrl}
+                alt="Hero"
+                fill
+                className="object-cover brightness-50"
+                priority
+                data-ai-hint="landscape discovery"
+              />
+            )}
           </div>
           <div className="relative z-10 container mx-auto px-4 text-center text-white">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
@@ -151,12 +155,14 @@ export default function Home() {
               {featuredRallies.map((rally) => (
                 <Card key={rally.id} className="overflow-hidden border-none shadow-lg hover:shadow-xl transition-shadow group cursor-pointer">
                   <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={rally.image || ''}
-                      alt={rally.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                    {rally.image && (
+                      <Image
+                        src={rally.image}
+                        alt={rally.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    )}
                     <Badge className="absolute top-3 left-3 bg-white/90 text-primary hover:bg-white">{rally.category}</Badge>
                     <Badge className="absolute top-3 right-3 bg-accent text-white">{rally.price}</Badge>
                   </div>
