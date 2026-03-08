@@ -46,41 +46,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Problem Statement */}
-        <section className="py-16 bg-red-50">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="flex items-center justify-center gap-4 mb-8">
-                <AlertTriangle className="w-12 h-12 text-red-600" />
-                <h2 className="text-3xl font-bold text-gray-900">The Crisis</h2>
-              </div>
-              <div className="grid md:grid-cols-3 gap-6">
-                <Card className="border-red-200">
-                  <CardContent className="pt-6">
-                    <div className="text-4xl font-bold text-red-600 mb-2">1 in 10</div>
-                    <p className="text-gray-700">medicines in developing countries are substandard or falsified</p>
-                    <p className="text-sm text-gray-500 mt-2">— WHO Report</p>
-                  </CardContent>
-                </Card>
-                <Card className="border-red-200">
-                  <CardContent className="pt-6">
-                    <div className="text-4xl font-bold text-red-600 mb-2">500,000</div>
-                    <p className="text-gray-700">deaths per year in Africa alone from counterfeit medicines</p>
-                    <p className="text-sm text-gray-500 mt-2">— UNODC Estimate</p>
-                  </CardContent>
-                </Card>
-                <Card className="border-red-200">
-                  <CardContent className="pt-6">
-                    <div className="text-4xl font-bold text-red-600 mb-2">100+</div>
-                    <p className="text-gray-700">countries affected by organized pharmaceutical crime</p>
-                    <p className="text-sm text-gray-500 mt-2">— PSI Data</p>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Technology Trust */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
@@ -119,6 +84,41 @@ export default function Home() {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Problem Statement */}
+        <section className="py-16 bg-red-50">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center justify-center gap-4 mb-8">
+                <AlertTriangle className="w-12 h-12 text-red-600" />
+                <h2 className="text-3xl font-bold text-gray-900">The Crisis</h2>
+              </div>
+              <div className="grid md:grid-cols-3 gap-6">
+                <Card className="border-red-200">
+                  <CardContent className="pt-6">
+                    <div className="text-4xl font-bold text-red-600 mb-2">1 in 10</div>
+                    <p className="text-gray-700">medicines in developing countries are substandard or falsified</p>
+                    <p className="text-sm text-gray-500 mt-2">— WHO Report</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-red-200">
+                  <CardContent className="pt-6">
+                    <div className="text-4xl font-bold text-red-600 mb-2">500,000</div>
+                    <p className="text-gray-700">deaths per year in Africa alone from counterfeit medicines</p>
+                    <p className="text-sm text-gray-500 mt-2">— UNODC Estimate</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-red-200">
+                  <CardContent className="pt-6">
+                    <div className="text-4xl font-bold text-red-600 mb-2">100+</div>
+                    <p className="text-gray-700">countries affected by organized pharmaceutical crime</p>
+                    <p className="text-sm text-gray-500 mt-2">— PSI Data</p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </section>
