@@ -4,8 +4,11 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'ぷらねっと (PRA.net) | 次世代スタンプラリー作成プラットフォーム',
-  description: 'AIを活用して最高のスタンプラリー体験をデザインしましょう。',
+  title: 'CountFaith | Pharmaceutical Supply Chain Monitoring System',
+  description: 'Stop counterfeit drugs with expert eyes. AI-powered risk detection and pharmacist verification platform.',
+  icons: {
+    icon: '/image.png',
+  },
 };
 
 export default function RootLayout({
@@ -14,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

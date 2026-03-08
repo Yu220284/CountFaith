@@ -1,262 +1,296 @@
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, MapPin, Clock, ArrowRight, Filter, Compass, History, Ghost, Utensils } from 'lucide-react';
+import { Building2, Users, CheckCircle2, Target, Shield, Globe, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlaceHolderImages } from '@/app/lib/placeholder-images';
-
-const categories = [
-  { name: 'ミステリー', icon: Ghost, color: 'bg-purple-100 text-purple-700' },
-  { name: '歴史', icon: History, color: 'bg-amber-100 text-amber-700' },
-  { name: 'グルメ', icon: Utensils, color: 'bg-orange-100 text-orange-700' },
-  { name: '冒険', icon: Compass, color: 'bg-blue-100 text-blue-700' },
-];
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Home() {
-  const safeImages = PlaceHolderImages || [];
-  const logoUrl = safeImages.find(img => img.id === 'logo')?.imageUrl || '';
-  const heroUrl = safeImages.find(img => img.id === 'hero')?.imageUrl || '';
-
-  const featuredRallies = [
-    {
-      id: 'tokyo-1',
-      title: '東京ミステリー・ウォーク',
-      location: '東京都 新宿区',
-      duration: '3時間',
-      category: 'ミステリー',
-      image: safeImages.find(img => img.id === 'rally-tokyo')?.imageUrl,
-      price: '無料'
-    },
-    {
-      id: 'kyoto-2',
-      title: '古都の歴史を巡る旅',
-      location: '京都府 京都市',
-      duration: '5時間',
-      category: '歴史',
-      image: safeImages.find(img => img.id === 'rally-history')?.imageUrl,
-      price: '¥500'
-    },
-    {
-      id: 'osaka-3',
-      title: '大阪くいだおれスタンプラリー',
-      location: '大阪府 大阪市',
-      duration: '4時間',
-      category: 'グルメ',
-      image: safeImages.find(img => img.id === 'rally-food')?.imageUrl,
-      price: '無料'
-    }
-  ];
-
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Navigation */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            {logoUrl ? (
-              <Image src={logoUrl} alt="Logo" width={32} height={32} className="rounded-lg object-contain" />
-            ) : (
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">P</div>
-            )}
-            <span className="text-xl font-bold text-primary">ぷらねっと</span>
+            <Image src="/image.png" alt="CountFaith" width={32} height={32} className="rounded-lg" />
+            <span className="text-xl font-bold text-primary">CountFaith</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link href="/" className="text-primary">ラリーを探す</Link>
-            <Link href="/create" className="hover:text-primary transition-colors">ラリーを作る</Link>
-            <Link href="/my-rallies" className="hover:text-primary transition-colors">マイページ</Link>
+            <Link href="/dashboard" className="hover:text-primary transition-colors">Dashboard</Link>
+            <Link href="/pharmacists" className="hover:text-primary transition-colors">Pharmacists</Link>
+            <Link href="/inspections" className="hover:text-primary transition-colors">Inspections</Link>
           </nav>
-          <div className="flex items-center gap-4">
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/login">ログイン</Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="/create">今すぐ作成</Link>
-            </Button>
-          </div>
         </div>
       </header>
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative h-[400px] flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            {heroUrl && (
-              <Image
-                src={heroUrl}
-                alt="Hero"
-                fill
-                className="object-cover brightness-50"
-                priority
-                data-ai-hint="landscape discovery"
-              />
-            )}
-          </div>
-          <div className="relative z-10 container mx-auto px-4 text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
-              街は、あなたのアトラクション。
+        <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-5xl font-bold mb-6 text-gray-900">
+              Stop Counterfeit Drugs with Expert Eyes
             </h1>
-            <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-90">
-              AIを使って、世界に一つだけのスタンプラリーを瞬時に作成.
-              日常の風景を、忘れられない冒険に変えましょう。
+            <p className="text-xl mb-10 max-w-3xl mx-auto text-gray-700">
+              AI detects risks. Pharmacists verify authenticity.<br />
+              Protecting pharmaceutical supply chains with digital intelligence and human responsibility.
             </p>
-            <div className="flex flex-col md:row items-center justify-center gap-4 max-w-xl mx-auto">
-              <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input 
-                  placeholder="場所やテーマで検索..." 
-                  className="pl-10 bg-white/95 text-foreground h-12 rounded-full border-none shadow-lg"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Categories */}
-        <section className="py-12 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold">カテゴリーから探す</h2>
-              <Button variant="ghost" className="text-primary font-medium">
-                すべて見る <ArrowRight className="ml-2 w-4 h-4" />
+            <div className="flex gap-4 justify-center">
+              <Button size="lg" asChild>
+                <Link href="/dashboard">For Providers</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/pharmacists">For Pharmacists</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/feedback">For Patients</Link>
               </Button>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {categories.map((cat) => (
-                <Link key={cat.name} href={`/search?cat=${cat.name}`} className="group">
-                  <div className={`flex flex-col items-center justify-center p-6 rounded-2xl transition-all group-hover:shadow-md ${cat.color}`}>
-                    <cat.icon className="w-8 h-8 mb-3" />
-                    <span className="font-semibold">{cat.name}</span>
-                  </div>
-                </Link>
-              ))}
+          </div>
+        </section>
+
+        {/* Problem Statement */}
+        <section className="py-16 bg-red-50">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center justify-center gap-4 mb-8">
+                <AlertTriangle className="w-12 h-12 text-red-600" />
+                <h2 className="text-3xl font-bold text-gray-900">The Crisis</h2>
+              </div>
+              <div className="grid md:grid-cols-3 gap-6">
+                <Card className="border-red-200">
+                  <CardContent className="pt-6">
+                    <div className="text-4xl font-bold text-red-600 mb-2">1 in 10</div>
+                    <p className="text-gray-700">medicines in developing countries are substandard or falsified</p>
+                    <p className="text-sm text-gray-500 mt-2">— WHO Report</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-red-200">
+                  <CardContent className="pt-6">
+                    <div className="text-4xl font-bold text-red-600 mb-2">500,000</div>
+                    <p className="text-gray-700">deaths per year in Africa alone from counterfeit medicines</p>
+                    <p className="text-sm text-gray-500 mt-2">— UNODC Estimate</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-red-200">
+                  <CardContent className="pt-6">
+                    <div className="text-4xl font-bold text-red-600 mb-2">100+</div>
+                    <p className="text-gray-700">countries affected by organized pharmaceutical crime</p>
+                    <p className="text-sm text-gray-500 mt-2">— PSI Data</p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Featured Rallies */}
-        <section className="py-16 bg-background">
+        {/* Technology Trust */}
+        <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between mb-10">
-              <div>
-                <h2 className="text-2xl font-bold mb-2">おすすめのスタンプラリー</h2>
-                <p className="text-muted-foreground">今話題の冒険に出かけましょう。</p>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="outline" size="icon" className="rounded-full">
-                  <Filter className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {featuredRallies.map((rally) => (
-                <Card key={rally.id} className="overflow-hidden border-none shadow-lg hover:shadow-xl transition-shadow group cursor-pointer">
-                  <div className="relative h-48 overflow-hidden">
-                    {rally.image && (
-                      <Image
-                        src={rally.image}
-                        alt={rally.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    )}
-                    <Badge className="absolute top-3 left-3 bg-white/90 text-primary hover:bg-white">{rally.category}</Badge>
-                    <Badge className="absolute top-3 right-3 bg-accent text-white">{rally.price}</Badge>
+            <h2 className="text-3xl font-bold text-center mb-12">Real Data, Real Trust</h2>
+            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+              <Card>
+                <CardHeader>
+                  <Globe className="w-12 h-12 text-blue-600 mb-4" />
+                  <CardTitle>Crustdata: Live Professional Data</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700 mb-4">
+                    Real-time pharmacist profiles from LinkedIn, GitHub, and professional license databases.
+                  </p>
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <p className="text-sm font-medium text-blue-900">✓ Not mock data — actual profiles</p>
+                    <p className="text-sm font-medium text-blue-900">✓ Geographic search within 50km</p>
+                    <p className="text-sm font-medium text-blue-900">✓ Experience & credentials verified</p>
                   </div>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-xl group-hover:text-primary transition-colors">{rally.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pb-4">
-                    <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-primary" />
-                        <span>{rally.location}</span>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <Shield className="w-12 h-12 text-purple-600 mb-4" />
+                  <CardTitle>Blaxel: AI Agent Execution</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700 mb-4">
+                    Autonomous AI agents assign optimal pharmacists and issue tamper-proof Proof of Faith certificates.
+                  </p>
+                  <div className="bg-purple-50 p-4 rounded-lg">
+                    <p className="text-sm font-medium text-purple-900">✓ Secure code execution environment</p>
+                    <p className="text-sm font-medium text-purple-900">✓ Reduced centralized tampering risk</p>
+                    <p className="text-sm font-medium text-purple-900">✓ Autonomous agency operation</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Three-Party Ecosystem */}
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12">Three-Party Ecosystem</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card>
+                <CardHeader>
+                  <Building2 className="w-12 h-12 text-blue-600 mb-4" />
+                  <CardTitle>Pharmaceutical Companies</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">Pay for CountFaith certification. Promote "Our medicines use CountFaith verification" to build trust and justify premium pricing.</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <Users className="w-12 h-12 text-green-600 mb-4" />
+                  <CardTitle>Latent Pharmacists</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">Visit distribution sites to verify authenticity. Leverage professional qualifications for flexible, high-paying work with social impact.</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CheckCircle2 className="w-12 h-12 text-purple-600 mb-4" />
+                  <CardTitle>Hospitals & Patients</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">Receive guaranteed effective medicines. Pay premium for CountFaith-certified drugs with proven authenticity and efficacy.</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* YC RFS Alignment */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-center mb-8">YC Request for Startups 2026</h2>
+              <Card className="border-orange-200">
+                <CardContent className="pt-6">
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-4">
+                      <div className="bg-orange-100 p-2 rounded">
+                        <Target className="w-6 h-6 text-orange-600" />
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-primary" />
-                        <span>{rally.duration}</span>
+                      <div>
+                        <h3 className="font-bold text-lg mb-2">AI-Native Agency</h3>
+                        <p className="text-gray-700">
+                          CountFaith embodies YC's vision of software evolving from tools (SaaS) to autonomous agencies that complete tasks independently.
+                        </p>
                       </div>
                     </div>
-                  </CardContent>
-                  <CardFooter className="pt-0 border-t mt-auto">
-                    <Button variant="ghost" className="w-full justify-between text-primary font-medium hover:bg-primary/5 px-0">
-                      詳細を見る <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
+                    <div className="flex items-start gap-4">
+                      <div className="bg-orange-100 p-2 rounded">
+                        <Building2 className="w-6 h-6 text-orange-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-lg mb-2">AI for Government</h3>
+                        <p className="text-gray-700">
+                          Solving real-world physical challenges in pharmaceutical supply chains with AI + human expertise.
+                        </p>
+                      </div>
+                    </div>
+                    <a 
+                      href="https://www.ycombinator.com/rfs" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-block text-orange-600 hover:text-orange-700 font-medium mt-2"
+                    >
+                      → View YC RFS 2026
+                    </a>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-20">
+        {/* SDG Impact */}
+        <section className="py-16 bg-blue-50">
           <div className="container mx-auto px-4">
-            <div className="bg-primary rounded-3xl p-8 md:p-16 text-center text-white relative overflow-hidden shadow-2xl">
-              <div className="relative z-10 max-w-2xl mx-auto">
-                <h2 className="text-3xl md:text-5xl font-bold mb-6">あなたの街のストーリーを、形に。</h2>
-                <p className="text-lg opacity-90 mb-10">
-                  プロの知識がなくても大丈夫。AIがルート設計からコンテンツ作成まで、あらゆる工程をサポートします。
-                </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Button size="lg" variant="secondary" className="font-bold px-8 h-14 rounded-full" asChild>
-                    <Link href="/create">ラリーを作成する</Link>
-                  </Button>
-                  <Button size="lg" variant="outline" className="bg-white/10 border-white/20 text-white font-bold px-8 h-14 rounded-full hover:bg-white/20">
-                    使い方ガイド
-                  </Button>
-                </div>
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center justify-center gap-4 mb-8">
+                <Target className="w-12 h-12 text-blue-600" />
+                <h2 className="text-3xl font-bold">SDG 3: Good Health and Well-being</h2>
               </div>
-              <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+              <Card>
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-bold mb-4">Business Model</h3>
+                  <div className="space-y-4 text-gray-700">
+                    <p>
+                      <strong>Pharmaceutical companies pay</strong> for CountFaith certification to differentiate their products in the market.
+                    </p>
+                    <p>
+                      <strong>Marketing advantage:</strong> "Our medicines are verified by CountFaith" becomes a powerful trust signal.
+                    </p>
+                    <p>
+                      <strong>Premium pricing justified:</strong> Hospitals and patients pay more for guaranteed authentic, effective medicines.
+                    </p>
+                    <p className="text-blue-600 font-medium">
+                      Result: Reduced counterfeit drugs → Better health outcomes → Contributing to UN SDG 3
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <div className="max-w-3xl mx-auto space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Is pharmacist data private?</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700">
+                    We use Crustdata to access only publicly available professional profiles (LinkedIn, etc.). 
+                    For actual deployment, we implement compliant onboarding processes following local regulations.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Why not use AI alone?</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700">
+                    Medicines are physical. Subtle packaging differences and dissolution reactions require expert intuition 
+                    and responsibility that AI cameras alone cannot capture. Human expertise is the last mile that saves lives.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-6">Proof of Faith</h2>
+            <p className="text-lg max-w-2xl mx-auto mb-8">
+              Immutable truth certificates issued with pharmacist digital signatures.<br />
+              Complete traceability through Blaxel technology.
+            </p>
+            <Button size="lg" variant="secondary" asChild>
+              <Link href="/inspections">Start Inspection</Link>
+            </Button>
           </div>
         </section>
       </main>
 
-      <footer className="bg-slate-900 text-slate-300 py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8 border-b border-slate-800 pb-12 mb-12">
-            <div className="col-span-2">
-              <div className="flex items-center gap-2 mb-6">
-                {logoUrl ? (
-                  <Image src={logoUrl} alt="Logo" width={32} height={32} className="rounded-lg object-contain" />
-                ) : (
-                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">P</div>
-                )}
-                <span className="text-xl font-bold text-white">ぷらねっと (PRA.net)</span>
-              </div>
-              <p className="max-w-xs text-sm leading-relaxed">
-                日本全国の魅力を再発見するための、次世代デジタルスタンプラリー作成プラットフォーム。
-              </p>
-            </div>
-            <div>
-              <h4 className="font-bold text-white mb-6">サービス</h4>
-              <ul className="space-y-4 text-sm">
-                <li><Link href="/" className="hover:text-primary transition-colors">ラリーを探す</Link></li>
-                <li><Link href="/create" className="hover:text-primary transition-colors">ラリーを作る</Link></li>
-                <li><Link href="/business" className="hover:text-primary transition-colors">法人向けプラン</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-white mb-6">サポート</h4>
-              <ul className="space-y-4 text-sm">
-                <li><Link href="/faq" className="hover:text-primary transition-colors">よくある質問</Link></li>
-                <li><Link href="/guide" className="hover:text-primary transition-colors">ご利用ガイド</Link></li>
-                <li><Link href="/contact" className="hover:text-primary transition-colors">お問い合わせ</Link></li>
-              </ul>
-            </div>
+      <footer className="bg-slate-900 text-slate-300 py-8">
+        <div className="container mx-auto px-4 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Image src="/image.png" alt="CountFaith" width={24} height={24} className="rounded" />
+            <span className="font-bold text-white">CountFaith</span>
           </div>
-          <div className="flex flex-col md:row items-center justify-between text-xs gap-4">
-            <p>&copy; 2024 PRA.net. All rights reserved.</p>
-            <div className="flex gap-6">
-              <Link href="/terms" className="hover:text-white transition-colors">利用規約</Link>
-              <Link href="/privacy" className="hover:text-white transition-colors">プライバシーポリシー</Link>
-            </div>
-          </div>
+          <p>&copy; 2026 CountFaith. All rights reserved.</p>
         </div>
       </footer>
     </div>
