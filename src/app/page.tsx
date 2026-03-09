@@ -123,6 +123,50 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Vision */}
+        <section className="py-16 bg-gradient-to-br from-green-50 to-emerald-100">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl font-bold mb-8 text-gray-900">Our Vision</h2>
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+                <img 
+                  src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=400&fit=crop" 
+                  alt="Happy family with healthcare" 
+                  className="w-full h-64 object-cover"
+                />
+                <div className="p-8">
+                  <p className="text-2xl font-semibold text-gray-800 mb-4">
+                    A world where every patient receives authentic, effective medicines
+                  </p>
+                  <p className="text-lg text-gray-600">
+                    Where families trust their healthcare, children grow up healthy, and no one suffers from counterfeit drugs.
+                  </p>
+                </div>
+              </div>
+              <div className="grid md:grid-cols-3 gap-6 text-left">
+                <Card className="border-green-200">
+                  <CardContent className="pt-6">
+                    <h3 className="font-bold text-lg mb-2">Trust Restored</h3>
+                    <p className="text-sm text-gray-600">Patients confident in their treatment</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-green-200">
+                  <CardContent className="pt-6">
+                    <h3 className="font-bold text-lg mb-2">Lives Saved</h3>
+                    <p className="text-sm text-gray-600">500,000+ deaths prevented annually</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-green-200">
+                  <CardContent className="pt-6">
+                    <h3 className="font-bold text-lg mb-2">Global Impact</h3>
+                    <p className="text-sm text-gray-600">Safe medicines in every country</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Three-Party Ecosystem */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
